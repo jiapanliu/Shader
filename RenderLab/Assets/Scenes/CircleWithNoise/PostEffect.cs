@@ -19,5 +19,7 @@ namespace Scenes.CircleWithNoise
                 Graphics.Blit(src,dest);
             }
         }
+
+        
     }
 }

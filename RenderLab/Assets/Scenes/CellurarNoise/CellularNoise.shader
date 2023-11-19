@@ -172,8 +172,8 @@ Shader "ayy/CellularNoise"
             fixed4 frag (v2f i) : SV_Target
             {
                 //return cellularNoiseByFixedPoints(i.uv);
-                return cellularNoiseByTiling(i.uv);
-                //return voronoiByFixedPoints(i.uv);
+                //return cellularNoiseByTiling(i.uv);
+                return voronoiByFixedPoints(i.uv);
             }
             ENDCG
         }

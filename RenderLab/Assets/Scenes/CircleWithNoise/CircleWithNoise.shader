@@ -46,7 +46,7 @@ Shader "ayy/CircleWithNoise"
             // simple circle
             fixed4 shape1(float2 uv,fixed4 imgCol)
             {
-                const float gradient = 0.04;
+                const float gradient = 0.1;
                 float sq = sqrt(uv.x * uv.x + uv.y * uv.y);
                 float blendFactor = smoothstep(_Radius,_Radius - gradient,sq);
                 return lerp(imgCol,fixed4(1.0,1.0,1.0,1.0),blendFactor);
@@ -64,14 +64,20 @@ Shader "ayy/CircleWithNoise"
                 
                 float rad = atan2(uv.y,uv.x);
                 float offset = sin(rad * 5.0) * maxOffset;
-                
+                // 图形旋转
+                //float offset = sin(rad * 5.0+_Time.y*2) * maxOffset;
+                //图形波形数量增加
+                //float offset = sin(rad * 5.0*_Time.y) * maxOffset;
+
                 float blendFactor = smoothstep(_Radius + offset,_Radius - gradient + offset,sq);
                 return lerp(imgCol,fixed4(1.0,1.0,1.0,1.0),blendFactor);
             }
 
+
             float random(float x)
             {
-                return frac(sin(x) * 10000.0*_Time.y*0.0001);
+                return frac(sin(x) * 2.0);
+                //return sin(_Time.y);
             }
 
             // circle with noise
@@ -105,28 +111,30 @@ Shader "ayy/CircleWithNoise"
                 fixed4 col = tex2D(_MainTex, i.uv);
                 
                 //return shape1(uv,col);
-                return shape2(uv,col);
-                //return shape3(uv,col);
+                //return shape2(uv,col);
+                return shape3(uv,col);
             }
             
 
-            // fixed4 frag (v2f i) : SV_Target
-            // {
-            //     float2 uv = i.uv;
-            //     uv.x += sin(uv.y * 10.0 + _Time.y * 0.3) / 10.0;
+             //fixed4 frag (v2f i) : SV_Target
+             //{
+             //    float2 uv = i.uv;
+             //    float fT=sin(_Time.y);
+             //    //fT=fT*2-1;
+             //    uv.x += sin(uv.y * 10.0 + fT) / 10.0;
 
-            //     if(uv.x < 0.0)
-            //     {
-            //         uv.x = 1.0 + uv.x;
-            //     }
-            //     if(uv.x > 1.0)
-            //     {
-            //         uv.x = uv.x - 1.0;
-            //     }
+             //    if(uv.x < 0.0)
+             //    {
+             //        uv.x = 1.0 + uv.x;
+             //    }
+             //    if(uv.x > 1.0)
+             //    {
+             //        uv.x = uv.x - 1.0;
+             //    }
                 
-            //     fixed4 col = tex2D(_MainTex,uv);
-            //     return col;
-            // }
+             //    fixed4 col = tex2D(_MainTex,uv);
+             //    return col;
+             //}
 
             
             ENDCG

@@ -1,13 +1,12 @@
-ÔªøShader "Ayy/CmdBufTest"
+Shader "Unlit/CommandBufferHotDistort"
 {
-    Properties
+      Properties
     {
-        _NoiseTex ("Texture", 2D) = "white" {}
-        
+        _NoiseTex ("Texture", 2D) = "white" {}       
         _DistortionFactor ("distorion factor", Range (0,1)) = 0.1
         _TimeScale ("time scale", Range (0,3)) = 0.2
 
-                        //ÂúÜÂΩ¢ÔºöÂçäÂæÑ   Ê∏êÂèò   ‰∏≠ÂøÉÁÇπÂÅèÁßª
+        //‘≤–Œ£∫∞Îæ∂   Ω•±‰   ÷––ƒµ„∆´“∆
         _Radius("Radius",Range(0,1.0))=0.1
         _Gradient("Gradient",Range(0,1.0))=0.1
         _CenterOffsetX("CenterOffsetX",Range(0,1.0))=0.1
@@ -24,10 +23,9 @@
             ZWrite Off
             
             CGPROGRAM
-// Upgrade NOTE: excluded shader from DX11; has structs without semantics (struct v2f members screenPos)
-//#pragma exclude_renderers d3d11
+
             #pragma vertex vert
-            #pragma fragment frag
+            #pragma fragment frag    
             
             #include "UnityCG.cginc"
 
@@ -47,8 +45,7 @@
             sampler2D _NoiseTex;
             float _DistortionFactor;
             float _TimeScale;
-            
-            
+                    
             sampler2D _Ayy_GrabTexture;
 
             v2f vert (appdata v)
@@ -60,54 +57,25 @@
                 return o;
             }
 
-            // Testcase 1 , pure color
-             //fixed4 frag (v2f i) : SV_Target
-             //{
-             //    float2 uv = i.screenPos.xy;
-             //    fixed4 col = fixed4(uv.x,uv.y,0.0,1.0);
-             //    return col;
-             //}
-            
-            //Testcase 2, whole grab texture
-             //fixed4 frag (v2f i) : SV_Target
-             //{
-             //    fixed4 col = tex2D(_Ayy_GrabTexture,i.uv);
-             //    col *= fixed4(1.0,0.0,0.0,1.0);
-             //    return col;
-             //}
-
-            //Testcase 3,grab texture with Screen UV
-             //fixed4 frag (v2f i) : SV_Target
-             //{
-             //    float2 screenUV = i.screenPos.xy;
-             //    fixed4 col = tex2D(_Ayy_GrabTexture,screenUV);
-             //    col *= fixed4(1.0,0.0,0.0,0.5);
-             //    return col;
-             //}
-
-
-                        float _Radius;
+            float _Radius;
             float _Gradient;
             float _CenterOffsetX;
             float _CenterOffsetY;
             float _ClipValue;
-                                    //ÂúÜÂΩ¢
+            
+            //‘≤–Œ
             float CircleShape(fixed2 uv,fixed4 imgCol){
                 float pointX=uv.x-_CenterOffsetX;
                 float pointY=uv.y-_CenterOffsetY;
                 float sq = sqrt(pointX * pointX + pointY * pointY);
                 float blendFactor = smoothstep(_Radius,_Radius - _Gradient,sq);
-                //return lerp(fixed4(1.0,1.0,1.0,1.0),imgCol, blendFactor);
                 return blendFactor;
             }
             
             // Testcase , final result
             fixed4 frag (v2f i) : SV_Target
             {
-                float2 uv = i.screenPos.xy;
-            
-                //_Time float4 Time (t/20, t, t*2, t*3), use to animate things inside the shaders.
-            
+                float2 uv = i.screenPos.xy; 
                 float2 noiseUV = uv - frac(_Time.y * _TimeScale);
                 float4 noiseCol = tex2D(_NoiseTex,noiseUV);
             
