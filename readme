@@ -1,1 +1,10 @@
 This is ShaderCode
+
+
+NS_demo-mainEX：液体扰动
+
+PaintShader：工程源码，场景中画笔效果，需要给物体添加特殊shader
+
+RenderLab: shader合集，内含屏幕画笔、commandbuffer、形状等好多效果
+
+UnityStencilBuffer：工程源码，StencilBuffer
